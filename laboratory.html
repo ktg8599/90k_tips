@@ -271,18 +271,19 @@
             if (currentTileIndex === -1) return;
         
             const researchType = researchTypes[currentTileIndex];
-        
-            let items = researchData[researchType].filter(item => {
+            const dataType = researchType === '전용' ? '장비' : researchType;
+            
+            let items = researchData[dataType].filter(item => {
                 return item.minLevel <= (currentTileIndex + 1);
             });
-        
-            if (researchType === '장비') {
-                const isSpecial = researchTypes[currentTileIndex] === '전용';
-                items = items.filter(item => isSpecial ? item.type === '전용' : item.type === '장비');
+            
+            if (researchType === '장비' || researchType === '전용') {
+                items = items.filter(item => item.type === researchType);
             }
-        
+            
             updateSelectedItems(items);
         });
+        
         
         document.querySelectorAll('.selected-image').forEach(element => {
             element.addEventListener('click', function() {
