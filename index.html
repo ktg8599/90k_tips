@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9만에이커 공략</title>
+    <style>
+        /* 모바일 우선 스타일 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* 데스크톱에서 모바일 화면 비율 유지 */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* 헤더 스타일 */
+        .header {
+            padding: 1rem;
+            text-align: center;
+            background-color: #f8f9fa;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .main-content {
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* 하단 네비게이션 */
+        .bottom-nav {
+            width: 100%;
+            background-color: #ffffff;
+            border-top: 1px solid #e9ecef;
+            padding: 0.5rem;
+            display: flex;
+            justify-content: space-around;
+            box-sizing: border-box;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #495057;
+            text-align: center;
+        }
+
+        /* 스크롤 테스트를 위한 임시 콘텐츠 스타일 */
+        .scroll-test {
+            min-height: 200vh; /* 스크롤 테스트를 위해 높이를 크게 설정 */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">9만에이커 공략</a></h1>
+    </header>
+
+    <main class="main-content">
+        <!-- 메인 페이지 콘텐츠 -->
+        <div id="content" class="scroll-test">
+            메인 페이지 내용이 여기에 들어갑니다.<br>
+            (스크롤 테스트용 더미 텍스트)<br><br>
+            
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>
+            
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </div>
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="guide.html" class="nav-item">공략</a>
+        <a href="laboratory.html" class="nav-item">연구소</a>
+        <a href="community.html" class="nav-item">커뮤니티</a>
+        <a href="about.html" class="nav-item">소개</a>
+    </nav>
+</body>
+</html>

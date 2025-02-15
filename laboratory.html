@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9만에이커 연구소 실험실</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="sub-header">
+        <h2>연구소 실험실</h2>
+        <div class="button-container">
+            <button id="resetBtn" class="control-btn">초기화</button>
+            <button id="saveBtn" class="control-btn">저장</button>
+        </div>
+    </div>
+    <main class="main-content">
+    <div class="tile-container">
+        <script src="/data/dataset.js?v=123"></script>
+        <script>
+            const researchTypes = [
+                '병사', '정책', '장비', '병사', '정책', '장비',
+                '병사', '정책', '장비', '병사', '정책', '장비',
+                '병사', '정책', '장비', '병사', '전용', '정책',
+                '장비', '전용'
+            ];
+
+            // 각 타일의 선택된 아이템을 저장할 배열
+            const tileSelections = new Array(researchTypes.length).fill(null);
+
+            const tileContainer = document.querySelector('.tile-container');
+            for (let i = 0; i < researchTypes.length; i += 2) {
+                const row = document.createElement('div');
+                row.className = 'tile-row';
+
+                for (let j = 0; j < 2; j++) {
+                    if (i + j >= researchTypes.length) break;
+
+                    const tile = document.createElement('div');
+                    tile.className = 'tile';
+                    tile.innerHTML = `
+                        <div class="tile-content" data-tile-index="${i + j}">
+                            <div class="tile-image" style="width: 50px; height: 50px; background-image: url('/images/lock.png'); background-size: contain; background-position: center; background-repeat: no-repeat; display: block;"></div>
+                            <div class="tile-text">
+                                <div class="research-type">${researchTypes[i + j]}</div>
+                                <div class="research-status available" data-index="${i + j}">연구 가능</div>
+                            </div>
+                        </div>
+                    `;
+                    tile.onclick = () => showPopup(i + j);
+                    row.appendChild(tile);
+                }
+
+                tileContainer.appendChild(row);
+
+                if (i + 2 < researchTypes.length) {
+                    const dashedLine = document.createElement('div');
+                    dashedLine.className = 'tile-dashed';
+                    tileContainer.appendChild(dashedLine);
+                }
+            }
+        </script>
+    </div>
+</main>
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">            
+            <div class="popup-title">연구 선택:</div>
+            
+            <div class="selected-items">
+                <div class="selected-image" data-choice="0"></div>
+                <div class="selected-image" data-choice="1"></div>
+                <div class="selected-image" data-choice="2"></div>
+    
+                <button class="reset-button">초기화</button>
+            </div>
+    
+            <div class="research-status-text">현재 연구 가능:</div>
+    
+            <div class="available-items">
+                <script>
+                    const availableItems = document.querySelector('.available-items');
+                    for (let i = 0; i < 18; i++) {
+                        const item = document.createElement('div');
+                        item.className = 'available-item';
+                        item.setAttribute('data-item-id', i);
+                        availableItems.appendChild(item);
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentTileIndex = -1;
+        let currentChoices = [];
+
+        function showPopup(index) {
+            currentTileIndex = index;
+            const popup = document.getElementById('popup');
+            popup.style.display = 'block';
+            
+            const tileLevel = index + 1;
+            const researchType = researchTypes[index];
+            
+            let availableItems = researchData[researchType === '전용' ? '장비' : researchType].filter(item => {
+                const levelOk = item.minLevel <= tileLevel;
+                const notSelected = !selectedItems.some(selected => selected && selected.id === item.id);
+                return levelOk && notSelected;
+            });
+            
+            // 장비/전용 타입 필터링
+            if (researchType === '장비' || researchType === '전용') {
+                availableItems = availableItems.filter(item => 
+                    researchType === '전용' ? item.type === '전용' : item.type === '장비'
+                );
+            }
+            
+            updateAvailableItems(availableItems);
+            updateSelectedItems(availableItems);
+        }
+
+        // available-item 업데이트 함수 수정
+        function updateAvailableItems(items) {
+            const container = document.querySelector('.available-items');
+            container.innerHTML = '';
+        
+            // 툴팁 오버레이와 팝업을 body에 추가 (없으면 생성)
+            let overlay = document.querySelector('.tooltip-overlay');
+            let tooltip = document.querySelector('.tooltip');
+        
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'tooltip-overlay';
+                document.body.appendChild(overlay);
+            }
+        
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.className = 'tooltip';
+                document.body.appendChild(tooltip);
+            }
+        
+            items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'available-item';
+                itemElement.style.backgroundImage = `url(${item.imageUrl})`;
+        
+                itemElement.addEventListener('click', () => {
+                    tooltip.innerHTML = `
+                        <h3>${item.name}</h3>
+                        
+                    `; //<p>${item.description}</p>
+                    tooltip.style.display = 'block';
+                    overlay.style.display = 'block';
+                });
+        
+                container.appendChild(itemElement);
+            });
+        
+            // 오버레이 클릭 시 팝업 닫기
+            overlay.addEventListener('click', () => {
+                tooltip.style.display = 'none';
+                overlay.style.display = 'none';
+            });
+        }
+        
+
+        function updateSelectedItems(items) {
+        const selectedImages = document.querySelectorAll('.selected-image');
+            
+            const availableItems = items.filter(item => 
+                !selectedItems.some(selected => selected && selected.id === item.id)
+            );
+            
+            const randomItems = availableItems.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+            selectedImages.forEach((element, index) => {
+                if (randomItems[index]) {
+                    element.style.width = '50px';
+                    element.style.height = '50px';
+                    element.style.backgroundImage = `url(${randomItems[index].imageUrl})`;
+                    element.style.backgroundSize = 'cover';
+                    element.style.backgroundPosition = 'center';
+                    element.style.display = 'block';
+                    
+                    element.dataset.itemId = randomItems[index].id;
+                } else {
+                    element.style.backgroundImage = '';
+                    element.style.display = 'none';
+                    delete element.dataset.itemId;
+                }
+            });
+        }
+
+        function selectItem(item) {
+            const tileContent = document.querySelector(`[data-tile-index="${currentTileIndex}"]`);
+            const tileImage = tileContent.querySelector('.tile-image');
+            const researchStatus = tileContent.querySelector('.research-status');
+            
+            // 이미지 업데이트
+            tileImage.style.width = '50px';
+            tileImage.style.height = '50px';
+            tileImage.style.backgroundImage = `url(${item.imageUrl})`;
+            tileImage.style.display = 'block';
+            
+            // 연구 상태 업데이트
+            researchStatus.textContent = '연구 완료';
+            researchStatus.classList.remove('available');
+            researchStatus.classList.add('completed');
+            
+            selectedItems[currentTileIndex] = item;
+            closePopup();
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'none';
+            currentTileIndex = -1;
+        }
+
+        // 초기 타일 상태 설정을 위한 함수
+        function initializeTiles() {
+            const tiles = document.querySelectorAll('.tile-content');
+            
+            tiles.forEach((tile, index) => {
+                const tileImage = tile.querySelector('.tile-image');
+                const researchStatus = tile.querySelector('.research-status');
+                
+                if (index === 0) {
+                    tileImage.style.backgroundImage = "url('/images/plus.png')";
+                    researchStatus.textContent = '연구 가능';
+                    researchStatus.classList.add('available');
+                    tile.parentElement.onclick = () => showPopup(index);
+                } else {
+                    tileImage.style.backgroundImage = "url('/images/question.png')";
+                    researchStatus.textContent = '연구 대기 중';
+                    researchStatus.classList.remove('available');
+                    researchStatus.classList.add('locked');
+                    tile.parentElement.onclick = null;
+                }
+            });
+        }
+
+        // 타일 선택 후 다음 타일 활성화
+        function updateNextTile(currentIndex) {
+            const nextIndex = currentIndex + 1;
+            const nextTile = document.querySelector(`[data-tile-index="${nextIndex}"]`);
+            
+            if (nextTile) {
+                const nextTileImage = nextTile.querySelector('.tile-image');
+                const nextResearchStatus = nextTile.querySelector('.research-status');
+                
+                nextTileImage.style.backgroundImage = "url('/images/plus.png')";
+                nextResearchStatus.textContent = '연구 가능';
+                nextResearchStatus.classList.remove('locked');
+                nextResearchStatus.classList.add('available');
+                
+                nextTile.parentElement.onclick = () => showPopup(nextIndex);
+            }
+        }
+
+        document.querySelector('.popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        document.querySelector('.reset-button').addEventListener('click', function() {
+            if (currentTileIndex === -1) return;
+        
+            const researchType = researchTypes[currentTileIndex];
+        
+            let items = researchData[researchType].filter(item => {
+                return item.minLevel <= (currentTileIndex + 1);
+            });
+        
+            if (researchType === '장비') {
+                const isSpecial = researchTypes[currentTileIndex] === '전용';
+                items = items.filter(item => isSpecial ? item.type === '전용' : item.type === '장비');
+            }
+        
+            updateSelectedItems(items);
+        });
+        
+        document.querySelectorAll('.selected-image').forEach(element => {
+            element.addEventListener('click', function() {
+                if (currentTileIndex === -1 || !this.dataset.itemId) return;
+                
+                const researchType = researchTypes[currentTileIndex];
+                const dataType = researchType === '전용' ? '장비' : researchType;
+                const selectedItem = researchData[dataType].find(item => 
+                    item.id.toString() === this.dataset.itemId
+                );
+                
+                if (selectedItem) {
+                    const tileContent = document.querySelector(`[data-tile-index="${currentTileIndex}"]`);
+                    const tileImage = tileContent.querySelector('.tile-image');
+                    const researchStatus = tileContent.querySelector('.research-status');
+                    
+                    tileImage.style.backgroundImage = `url(${selectedItem.imageUrl})`;
+                    tileImage.style.display = 'block';
+                    
+                    researchStatus.textContent = '연구 완료';
+                    researchStatus.classList.remove('available');
+                    researchStatus.classList.add('completed');
+                    
+                    selectedItems[currentTileIndex] = selectedItem;
+                    updateNextTile(currentTileIndex);
+                    closePopup();
+                }
+            });
+        });
+
+        
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            location.reload();
+        });
+        
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const content = document.querySelector('.main-content');
+            
+            html2canvas(content).then(canvas => {
+                // 캔버스를 이미지로 변환
+                const image = canvas.toDataURL('image/png');
+                
+                // 다운로드 링크 생성
+                const link = document.createElement('a');
+                link.download = '연구소_실험실.png';
+                link.href = image;
+                
+                // 링크 클릭하여 다운로드
+                link.click();
+            });
+        });
+
+        // 페이지 로드 시 초기 상태 설정
+        document.addEventListener('DOMContentLoaded', initializeTiles);
+        
+    </script>
+</body>
+</html>
