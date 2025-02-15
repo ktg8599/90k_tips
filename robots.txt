@@ -1,0 +1,3 @@
+User-agent: *
+Allow:/
+sitemap: https://90k-tips.netlify.app/sitemap.xml
