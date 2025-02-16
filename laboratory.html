@@ -115,6 +115,7 @@
     <script>
         let currentTileIndex = -1;
         let currentChoices = [];
+        let selectedSoldiers = ['장창','칼&방패','기병(검)'];
 
         function showPopup(index) {
             currentTileIndex = index;
@@ -130,12 +131,15 @@
                 return levelOk && notSelected;
             });
             
-            // 장비/전용 타입 필터링
+            
             if (researchType === '장비' || researchType === '전용') {
                 availableItems = availableItems.filter(item => 
-                    researchType === '전용' ? item.type === '전용' : item.type === '장비'
+                    researchType === '전용' 
+                        ? item.type === '전용' && selectedSoldiers.includes(item.soldier) 
+                        : item.type === '장비'
                 );
             }
+
             
             updateAvailableItems(availableItems);
             updateSelectedItems(availableItems);
@@ -146,7 +150,6 @@
             const container = document.querySelector('.available-items');
             container.innerHTML = '';
         
-            // 툴팁 오버레이와 팝업을 body에 추가 (없으면 생성)
             let overlay = document.querySelector('.tooltip-overlay');
             let tooltip = document.querySelector('.tooltip');
         
@@ -170,16 +173,45 @@
                 itemElement.addEventListener('click', () => {
                     tooltip.innerHTML = `
                         <h3>${item.name}</h3>
-                        
-                    `; //<p>${item.description}</p>
+                        <button class="select-button" data-item-id="${item.id}">선택</button>
+                    `;
                     tooltip.style.display = 'block';
                     overlay.style.display = 'block';
+        
+                    // 선택 버튼에 이벤트 리스너 추가
+                    const selectButton = tooltip.querySelector('.select-button');
+                    selectButton.addEventListener('click', (e) => {
+                        e.stopPropagation(); // 버블링 방지
+                        
+                        const tileContent = document.querySelector(`[data-tile-index="${currentTileIndex}"]`);
+                        const tileImage = tileContent.querySelector('.tile-image');
+                        const researchStatus = tileContent.querySelector('.research-status');
+                        
+                        tileImage.style.backgroundImage = `url(${item.imageUrl})`;
+                        tileImage.style.display = 'block';
+                        
+                        researchStatus.textContent = '연구 완료';
+                        researchStatus.classList.remove('available');
+                        researchStatus.classList.add('completed');
+                        
+                        selectedItems[currentTileIndex] = item;
+        
+                        if (researchTypes[currentTileIndex] === "병사") {
+                            selectedSoldiers.push(item.name);
+                        }
+        
+                        updateNextTile(currentTileIndex);
+                        
+                        // 모든 팝업 닫기
+                        tooltip.style.display = 'none';
+                        overlay.style.display = 'none';
+                        closePopup();
+                    });
                 });
         
                 container.appendChild(itemElement);
             });
         
-            // 오버레이 클릭 시 팝업 닫기
             overlay.addEventListener('click', () => {
                 tooltip.style.display = 'none';
                 overlay.style.display = 'none';
@@ -188,7 +220,7 @@
         
 
         function updateSelectedItems(items) {
-        const selectedImages = document.querySelectorAll('.selected-image');
+            const selectedImages = document.querySelectorAll('.selected-image');
             
             const availableItems = items.filter(item => 
                 !selectedItems.some(selected => selected && selected.id === item.id)
@@ -297,10 +329,15 @@
                 return item.minLevel <= (currentTileIndex + 1);
             });
             
-            if (researchType === '장비' || researchType === '전용') {
-                items = items.filter(item => item.type === researchType);
-            }
             
+            if (researchType === '장비' || researchType === '전용') {
+                items = items.filter(item => 
+                    researchType === '전용' 
+                        ? item.type === '전용' && selectedSoldiers.includes(item.soldier) 
+                        : item.type === '장비'
+                );
+            }
+           
             updateSelectedItems(items);
         });
         
@@ -328,6 +365,11 @@
                     researchStatus.classList.add('completed');
                     
                     selectedItems[currentTileIndex] = selectedItem;
+
+                    if (researchTypes[currentTileIndex] === "병사") {
+                        selectedSoldiers.push(selectedItem.name);
+                    }
+
                     updateNextTile(currentTileIndex);
                     closePopup();
                 }
@@ -359,7 +401,6 @@
 
         // 페이지 로드 시 초기 상태 설정
         document.addEventListener('DOMContentLoaded', initializeTiles);
-        
     </script>
 </body>
 </html>

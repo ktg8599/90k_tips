@@ -5,6 +5,7 @@ const researchData = {
       {
         id: "soldier_1",
         name: "장과",
+        soldier: "장과",
         minLevel: 1,
         imageUrl: "/images/soldiers/dagger-axe.png",
         description: "기본적인 보병 부대입니다. 근접 전투에 특화되어 있습니다."
@@ -12,6 +13,7 @@ const researchData = {
       {
         id: "soldier_2",
         name: "장궁",
+        soldier: "장궁",
         minLevel: 1,
         imageUrl: "/images/soldiers/longbowman.png",
         description: "훈련된 정예 보병입니다. 높은 방어력과 공격력을 가집니다."
@@ -546,6 +548,7 @@ const researchData = {
       {
         id: 'exclusive_1',
         name: "장창",
+        soldier: "장창",
         minLevel: 17,
         imageUrl: "/images/exclusive/spear.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -554,6 +557,7 @@ const researchData = {
       {
         id: 'exclusive_2',
         name: "긴 창",
+        soldier: "긴창",
         minLevel: 17,
         imageUrl: "/images/exclusive/lance.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -562,6 +566,7 @@ const researchData = {
       {
         id: 'exclusive_3',
         name: "장과",
+        soldier: "장과",
         minLevel: 17,
         imageUrl: "/images/exclusive/dragger-axe.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -570,6 +575,7 @@ const researchData = {
       {
         id: 'exclusive_4',
         name: "맥도",
+        soldier: "맥도",
         minLevel: 17,
         imageUrl: "/images/exclusive/modao.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -578,6 +584,7 @@ const researchData = {
       {
         id: 'exclusive_5',
         name: "양손검",
+        soldier: "장검",
         minLevel: 17,
         imageUrl: "/images/exclusive/two-handed-sword.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -586,6 +593,7 @@ const researchData = {
       {
         id: 'exclusive_6',
         name: "쌍극",
+        soldier: "쌍창",
         minLevel: 17,
         imageUrl: "/images/exclusive/double-halberds.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -594,6 +602,7 @@ const researchData = {
       {
         id: 'exclusive_7',
         name: "나무 방패",
+        soldier: "칼&방패",
         minLevel: 17,
         imageUrl: "/images/exclusive/wood-shield.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -602,6 +611,7 @@ const researchData = {
       {
         id: 'exclusive_8',
         name: "무거운 방패",
+        soldier: "무거운 방패",
         minLevel: 17,
         imageUrl: "/images/exclusive/heavy-shield.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -610,6 +620,7 @@ const researchData = {
       {
         id: 'exclusive_9',
         name: "삭",
+        soldier: "창&방패",
         minLevel: 17,
         imageUrl: "/images/exclusive/long-spear.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -618,6 +629,7 @@ const researchData = {
       {
         id: 'exclusive_10',
         name: "무쇠 망치",
+        soldier: "망치&방패",
         minLevel: 17,
         imageUrl: "/images/exclusive/iron-hammer.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -626,6 +638,7 @@ const researchData = {
       {
         id: 'exclusive_11',
         name: "검&방패",
+        soldier: "검&방패",
         minLevel: 17,
         imageUrl: "/images/exclusive/sword-shield.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -634,6 +647,7 @@ const researchData = {
       {
         id: 'exclusive_12',
         name: "장궁",
+        soldier: "장궁",
         minLevel: 17,
         imageUrl: "/images/exclusive/longbow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -642,6 +656,7 @@ const researchData = {
       {
         id: 'exclusive_13',
         name: "쇠뇌",
+        soldier: "쇠뇌",
         minLevel: 17,
         imageUrl: "/images/exclusive/crossbow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -650,6 +665,7 @@ const researchData = {
       {
         id: 'exclusive_14',
         name: "독궁",
+        soldier: "독궁",
         minLevel: 17,
         imageUrl: "/images/exclusive/toxibow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -658,6 +674,7 @@ const researchData = {
       {
         id: 'exclusive_15',
         name: "사냥활",
+        soldier: "사냥꾼",
         minLevel: 17,
         imageUrl: "/images/exclusive/hunters-bow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -666,6 +683,7 @@ const researchData = {
       {
         id: 'exclusive_16',
         name: "강화 쇠뇌",
+        soldier: "강화 쇠뇌",
         minLevel: 17,
         imageUrl: "/images/exclusive/imp-crossbow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -674,6 +692,7 @@ const researchData = {
       {
         id: 'exclusive_17',
         name: "화궁",
+        soldier: "화궁",
         minLevel: 17,
         imageUrl: "/images/exclusive/fire-bow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -682,6 +701,7 @@ const researchData = {
       {
         id: 'exclusive_18',
         name: "대검",
+        soldier: "기병(검)",
         minLevel: 17,
         imageUrl: "/images/exclusive/great-sword.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -690,6 +710,7 @@ const researchData = {
       {
         id: 'exclusive_19',
         name: "장극",
+        soldier: "기병(창)",
         minLevel: 17,
         imageUrl: "/images/exclusive/halberd.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -698,6 +719,7 @@ const researchData = {
       {
         id: 'exclusive_20',
         name: "언월도",
+        soldier: "기병(대도)",
         minLevel: 17,
         imageUrl: "/images/exclusive/guandao.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -706,6 +728,7 @@ const researchData = {
       {
         id: 'exclusive_21',
         name: "망치",
+        soldier: "중기병",
         minLevel: 17,
         imageUrl: "/images/exclusive/sledge-hammer.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -714,6 +737,7 @@ const researchData = {
       {
         id: 'exclusive_22',
         name: "곡궁",
+        soldier: "기병(활)",
         minLevel: 17,
         imageUrl: "/images/exclusive/recurbe-bow.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
@@ -722,6 +746,7 @@ const researchData = {
       {
         id: 'exclusive_23',
         name: "개산부",
+        soldier: "기병(도끼)",
         minLevel: 17,
         imageUrl: "/images/exclusive/axe.png",
         description: "전설적인 영웅이 사용하던 검입니다. 특수 효과가 있습니다.",
