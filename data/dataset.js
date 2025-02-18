@@ -323,7 +323,15 @@ const researchData = {
         name: "회심검",
         minLevel: 3,
         imageUrl: "/images/equipment/crit-blade.png",
-        description: "기본적인 검입니다. 근접 공격력을 제공합니다.",
+        att: {
+          range: "[2-10]",
+          probability: 1.0
+        },
+        hp: {
+          range: "[10-20]",
+          probability: 0.4
+        },
+        description: "[20-40]% 확률로 [150-180]%의 피해를 준다.",
         type: "장비"
       },
       {
